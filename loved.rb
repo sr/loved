@@ -40,7 +40,7 @@ module Loved
   end
 
   def love_current_mpd_song!(tags=[])
-    love_it!(mpd.current_song)
+    love_it!(mpd.current_song, tags)
   end
 
   def append_found_songs_to_mpd_playlist!(tags=[])
