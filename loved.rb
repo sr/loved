@@ -76,7 +76,7 @@ class Loved
 
   def play(tags=[])
     songs = find_by_tags(tags)
-    IO.popen('mpc add', 'r+') { |play_list| play_list << songs.join("\n") }
+    songs.each { |song| mpd.add(song) }
 
     songs
   end
