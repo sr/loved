@@ -13,16 +13,6 @@ class Hash
   end
 end
 
-class String
-  def to_tags
-    self.inject([]) do |tags, string|
-      string = string.to_s.gsub('.', '').dup
-      string.gsub!(/"(.*?)"\s*\s+?\s*/) { tags << $1; '' }
-      tags.push(*string.split(' '))
-    end
-  end
-end
-
 class MPD
   class Song
     def to_s
