@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
+require 'iconv'
 require 'rubygems'
 require 'librmpd'
 require 'yaml'
-require 'iconv'
 
 class Hash
   def keep(keys)
@@ -53,7 +53,7 @@ class Loved
       puts "=> Loved #{song.to_s}"
     rescue AlreadyLovedError
       abort 'Already loved, fool!'
-    rescue MPDIsNotPlayingError
+    rescue MPDIsNotPlayingError, Errno::ECONNREFUSED
       abort "MPD ain't playing, fool!"
     end
 
