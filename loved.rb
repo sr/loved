@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
-require 'iconv'
 require 'rubygems'
 require 'librmpd'
 require 'yaml'
+require 'iconv'
 
 class Hash
   def keep(keys)
