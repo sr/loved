@@ -82,8 +82,8 @@ class Loved
     song
   end
 
-  def loved?(song, tag='all')
-    find_by_tags(tag.to_a).include?(song.file)
+  def loved?(song, tags=[])
+    find_by_tags(tags).include?(song.file)
   end
 
   def find_all
