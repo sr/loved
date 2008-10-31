@@ -56,7 +56,6 @@ module Loved
 
     auto_tags = song.keep(@@auto_tags).values
     song.tags = tags.uniq.push(*auto_tags)
-    p song.tags
 
     write_to_database(song.tags) { "#{song.file} # #{song.tags.join(' ')}" }
 
