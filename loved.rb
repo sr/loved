@@ -156,7 +156,7 @@ class Loved
 end
 
 if $0 == __FILE__
-  if ARGV.join =~ /p[lay]?/
+  if ARGV.join =~ /^p\s+/
     Loved.play(ARGV[1..-1])
   else
     Loved.playing_song(ARGV)
