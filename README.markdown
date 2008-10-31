@@ -3,37 +3,42 @@ Loved
 
 Simple favorite manager for [MPD][].
 
-It goes like this:
-------------------
+It goes like this
+-----------------
 
-Assuming that the fellowing aliases are defined
+Assuming that the following aliases are defined:
 
-    alias l="ruby ~/code/loved/loved.rb"
-    alias p="l play"
+    alias loved="ruby ~/code/loved/loved.rb"
+    alias play="loved play"
 
-You're listening to some kick-ass song.
+You're listening to some kick-ass song:
 
     % mpc
     Big L - M.V.P.
     [playing] #32/76   0:16/3:39 (7%)
     volume:  0%   repeat: on    random: off
 
-    % l "old school"
+    % loved swearing "old school"
     => Loved Big L - M.V.P.
-       tags: "old school" "Big L" "1995" "Rap & Hip Hop"
+       tags: "swearing" "old school" "Big L" "1995" "Rap & Hip Hop"
 
-Later, you want to listen it
+Later, when you want to listen it:
 
-    % p "old school"
+    % play "old school"
     Added 1 songs to your play list. Enjoy!
 
 That's it!
 
-Note that :
+Note that:
 
 * You can assign as many tags as needed
-* `p` loads all favorites
+* `% play` loads all favorites
 * Each tag has its playlist stored in `~/.favorites`
+
+Requirements
+------------
+
+Ruby, rubygems, the librmpd gem, good music taste.
 
 Ever heard of [TATFT][] ?!
 -------------------------
