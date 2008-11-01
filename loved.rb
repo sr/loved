@@ -27,9 +27,9 @@ module Loved
   extend self
 
   @@auto_tags = %w(artist genre date)
-  @@directory = File.join(ENV['HOME'], '.loved')
 
-  def ensure_play_lists_directory_exists!
+  def playlists_directory=(dir)
+    @@directory = dir
     FileUtils.mkdir_p(@@directory) unless File.directory?(@@directory)
   end
 
@@ -117,7 +117,7 @@ module Loved
 end
 
 if $0 == __FILE__
-  Loved.ensure_play_lists_directory_exists!
+  Loved.playlists_directory = File.join(ENV['HOME'], '.loved')
 
   if ARGV.delete('play')
     songs = Loved.append_found_songs_to_mpd_playlist!(ARGV)
