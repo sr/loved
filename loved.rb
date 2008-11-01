@@ -88,7 +88,7 @@ module Loved
       files = tags.push('all').uniq.map { |tag| file_name_for_tag(tag) }
 
       files.each do |file_name|
-        File.open(file_name, 'a') { |f| f.puts "#{song_file} # #{tags.join(' ')}\n" }
+        File.open(file_name, 'a') { |f| f.puts "#{song_file} # #{tags.join(' ')}" }
       end
     end
 
