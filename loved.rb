@@ -18,8 +18,8 @@ module Loved
 
   @@auto_tags = %w(artist genre date)
 
-  def playlists_directory=(dir)
-    @@directory = dir
+  def playlists_directory=(directory)
+    @@directory = directory
     FileUtils.mkdir_p(@@directory) unless File.directory?(@@directory)
   end
 
