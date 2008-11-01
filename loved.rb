@@ -45,7 +45,7 @@ module Loved
     return if loved?(song)
 
     auto_tags = @@auto_tags.map { |key| song[key] }.chomp
-    song.tags = (tags + auto_tags).uniq
+    song.tags = tags + auto_tags
 
     write_to_database(song.tags, song.file)
 
@@ -75,8 +75,9 @@ module Loved
 
   private
     def write_to_database(tags, song_file)
-      files = tags.push('all').uniq.map { |tag| file_name_for_tag(tag) }
+      tags.push('all').uniq!
 
+      files = tags.map { |tag| file_name_for_tag(tag) }
       files.each do |file_name|
         File.open(file_name, 'a') { |f| f.puts "#{song_file} # #{tags.join(' ')}" }
       end
