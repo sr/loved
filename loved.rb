@@ -24,9 +24,11 @@ module Loved
   end
 
   def mpd
-    MPD.new.tap { |mpd| mpd.connect }
-  rescue SocketError, Errno::ECONNREFUSED
-    abort "Couldn't connect to MPD"
+    @mpd ||= begin
+      MPD.new.tap { |mpd| mpd.connect }
+    rescue SocketError, Errno::ECONNREFUSED
+      abort "Couldn't connect to MPD"
+    end
   end
 
   def love_current_mpd_song!(tags=[])
