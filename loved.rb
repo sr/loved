@@ -16,9 +16,8 @@ end
 class MPD
   class Song
     def to_s
-      "#{artist} - #{title}".tap do |string|
-        string << "\n   tags: #{tags.join(' ')}" if tags.any?
-      end
+      "#{artist} - #{title}" + \
+        ("\n   tags: #{tags.join(' ')}" if tags.any?).to_s
     end
   end
 end
