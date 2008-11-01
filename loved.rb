@@ -42,8 +42,6 @@ module Loved
   def love_it!(song, tags=[])
     raise ArgumentError unless song.file
 
-    return if loved?(song)
-
     auto_tags = @@auto_tags.map { |key| song[key] }.compact
     song.tags = tags + auto_tags
 
@@ -79,7 +77,10 @@ module Loved
 
       files = song.tags.map { |tag| file_name_for_tag(tag) }
       files.each do |file_name|
-        File.open(file_name, 'a') { |f| f.puts "#{song.file} # #{song.tags.join(' ')}" }
+        File.open(file_name, 'a+') do |file|
+	  next unless file.grep(/^#{Regexp.quote(song.file)} /).empty?
+	  file.puts "#{song.file} # #{song.tags.join(' ')}"
+	end
       end
     end
 
