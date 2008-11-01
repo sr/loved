@@ -54,7 +54,7 @@ module Loved
     return if loved?(song)
 
     auto_tags = song.keep(@@auto_tags).values
-    song.tags = tags.uniq.push(*auto_tags)
+    song.tags = tags.push(*auto_tags).uniq
 
     write_to_database(song.tags, song.file)
 
