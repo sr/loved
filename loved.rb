@@ -47,7 +47,7 @@ module Loved
     auto_tags = @@auto_tags.map { |key| song[key] }.chomp
     song.tags = tags + auto_tags
 
-    write_to_database(song.tags, song.file)
+    write_to_database(song)
 
     song
   end
@@ -74,12 +74,12 @@ module Loved
   end
 
   private
-    def write_to_database(tags, song_file)
-      tags.push('all').uniq!
+    def write_to_database(song)
+      song.tags.push('all').uniq!
 
-      files = tags.map { |tag| file_name_for_tag(tag) }
+      files = song.tags.map { |tag| file_name_for_tag(tag) }
       files.each do |file_name|
-        File.open(file_name, 'a') { |f| f.puts "#{song_file} # #{tags.join(' ')}" }
+        File.open(file_name, 'a') { |f| f.puts "#{song.file} # #{song.tags.join(' ')}" }
       end
     end
 
