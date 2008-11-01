@@ -31,6 +31,8 @@ module Loved
 
   def love_current_mpd_song!(tags=[])
     love_it!(mpd.current_song, tags)
+  rescue ArgumentError
+    abort "Couldn't determine current song. Check that MPD is playing."
   end
 
   def append_found_songs_to_mpd_playlist!(tags=[])
@@ -40,7 +42,7 @@ module Loved
   end
 
   def love_it!(song, tags=[])
-    raise ArgumentError unless song.file
+    raise ArgumentError unless song.respond_to?(:file)
 
     auto_tags = @@auto_tags.map { |key| song[key] }.compact
     song.tags = tags + auto_tags
