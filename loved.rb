@@ -34,7 +34,7 @@ module Loved
   end
 
   def mpd
-    MPD.new.tap { |mpd| mpd.connect }
+    MPD.new.connect
   rescue SocketError, Errno::ECONNREFUSED
     abort "Couldn't not connect to MPD"
   end
