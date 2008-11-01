@@ -44,7 +44,7 @@ module Loved
 
     return if loved?(song)
 
-    auto_tags = @@auto_tags.map { |key| song[key] }.chomp
+    auto_tags = @@auto_tags.map { |key| song[key] }.compact
     song.tags = tags + auto_tags
 
     write_to_database(song)
