@@ -36,7 +36,7 @@ module Loved
   def mpd
     MPD.new.connect
   rescue SocketError, Errno::ECONNREFUSED
-    abort "Couldn't not connect to MPD"
+    abort "Couldn't connect to MPD"
   end
 
   def love_current_mpd_song!(tags=[])
@@ -128,7 +128,7 @@ if $0 == __FILE__
     when MPD::Song
       puts "Loved #{song}"
     else
-      puts 'You really like this song, do you?'
+      puts "You really like this song, don't you?"
     end
   end
 end
