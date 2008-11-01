@@ -1,7 +1,7 @@
 Loved
 =====
 
-Simple favorite manager for [MPD][].
+Simple tag-based favorite manager for [MPD][].
 
 It goes like this
 -----------------
