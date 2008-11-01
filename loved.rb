@@ -4,15 +4,6 @@ require 'librmpd'
 require 'yaml'
 require 'iconv'
 
-class Hash
-  def keep(keys)
-    inject({}) do |hash, (key, value)|
-      hash[key] = value if keys.include?(key)
-      hash
-    end
-  end
-end
-
 class MPD
   class Song
     def to_s
@@ -53,8 +44,8 @@ module Loved
 
     return if loved?(song)
 
-    auto_tags = song.keep(@@auto_tags).values
-    song.tags = tags.push(*auto_tags).uniq
+    auto_tags = @@auto_tags.map { |key| song[key] }.chomp
+    song.tags = (tags + auto_tags).uniq
 
     write_to_database(song.tags, song.file)
 
