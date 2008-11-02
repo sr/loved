@@ -117,7 +117,7 @@ if $0 == __FILE__
 
   if ARGV.delete('play')
     songs = Loved.append_found_songs_to_mpd_playlist!(ARGV)
-    puts "Appended #{songs.length} song(s) to your MPD playlist. Enjoy!"
+    puts "Appended #{songs.length} song#{'s' if songs.length > 1} to your MPD playlist. Enjoy!"
   else
     song = Loved.love_current_mpd_song!(ARGV.dup)
     case song

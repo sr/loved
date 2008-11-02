@@ -25,7 +25,7 @@ You're listening to some kick-ass song:
 Later, when you want to listen it:
 
     % play "old school"
-    Added 1 songs to your play list. Enjoy!
+    Appended 1 song to your MPD playlist. Enjoy!
 
 That's it!
 
