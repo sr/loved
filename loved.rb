@@ -34,9 +34,8 @@ module Loved
   end
 
   def love_current_mpd_song!(tags=[])
-    current_song = mpd.current_song
-    raise NoCurrentSong unless current_song.song
-    love_it!(current_song, tags)
+    raise NoCurrentSong unless song = mpd.current_song
+    love_it!(song, tags)
   end
 
   def append_found_songs_to_mpd_playlist!(tags=[])
