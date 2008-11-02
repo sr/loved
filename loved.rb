@@ -16,6 +16,8 @@ end
 module Loved
   extend self
 
+  class NoCurrentSong < ArgumentError; end
+
   @@auto_tags = %w(artist genre date)
 
   def playlists_directory=(directory)
@@ -32,9 +34,9 @@ module Loved
   end
 
   def love_current_mpd_song!(tags=[])
-    love_it!(mpd.current_song, tags)
-  rescue ArgumentError
-    abort "Couldn't determine current song. Check that MPD is playing."
+    current_song = mpd.current_song
+    raise NoCurrentSong unless current_song.song
+    love_it!(current_song, tags)
   end
 
   def append_found_songs_to_mpd_playlist!(tags=[])
@@ -44,8 +46,6 @@ module Loved
   end
 
   def love_it!(song, tags=[])
-    raise ArgumentError unless song.respond_to?(:file)
-
     auto_tags = @@auto_tags.map { |key| song[key] }.compact
     song.tags = tags + auto_tags
 
@@ -119,7 +119,11 @@ if $0 == __FILE__
     songs = Loved.append_found_songs_to_mpd_playlist!(ARGV)
     puts "Appended #{songs.length} song#{'s' if songs.length > 1} to your MPD playlist. Enjoy!"
   else
-    song = Loved.love_current_mpd_song!(ARGV.dup)
+    begin
+      song = Loved.love_current_mpd_song!(ARGV.dup)
+    rescue Loved::NoCurrentSong
+      abort "Couldn't determine current song. Check that MPD is playing."
+    end
     case song
     when MPD::Song
       puts "Loved #{song}"
