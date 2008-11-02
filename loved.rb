@@ -118,17 +118,13 @@ if $0 == __FILE__
   if ARGV.delete('play')
     songs = Loved.append_found_songs_to_mpd_playlist!(ARGV)
     puts "Appended #{songs.length} song#{'s' if songs.length > 1} to your MPD playlist. Enjoy!"
-  else
-    begin
-      song = Loved.love_current_mpd_song!(ARGV.dup)
-    rescue Loved::NoCurrentSong
-      abort "Couldn't determine current song. Check that MPD is playing."
-    end
-    case song
-    when MPD::Song
-      puts "Loved #{song}"
-    else
-      puts "You really like this song, don't you?"
-    end
+    exit
+  end
+
+  begin
+    song = Loved.love_current_mpd_song!(ARGV.dup)
+    puts "Loved #{song}"
+  rescue Loved::NoCurrentSong
+    abort "Couldn't determine current song. Check that MPD is playing."
   end
 end
