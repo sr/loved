@@ -26,11 +26,7 @@ module Loved
   end
 
   def mpd
-    @mpd ||= begin
-      MPD.new.tap { |mpd| mpd.connect }
-    rescue SocketError, Errno::ECONNREFUSED
-      abort "Couldn't connect to MPD"
-    end
+    @mpd ||= MPD.new.tap { |mpd| mpd.connect }
   end
 
   def love_current_mpd_song!(tags=[])
@@ -123,6 +119,8 @@ if $0 == __FILE__
   begin
     song = Loved.love_current_mpd_song!(ARGV.dup)
     puts "Loved #{song}"
+  rescue SocketError, Errno::ECONNREFUSED
+    abort "Couldn't connect to MPD"
   rescue Loved::NoCurrentSong
     abort "Couldn't determine current song. Check that MPD is playing."
   end
