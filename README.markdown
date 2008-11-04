@@ -33,7 +33,9 @@ Note that:
 
 * You can assign as many tags as needed
 * `% play` loads all favorites
-* Each tag has its playlist stored in `~/.favorites`
+* Each tag has its playlist stored in `~/.loved`. Note that those are
+  simple m3u playlists so they can be manipulated with `cat`, `mv`, `ln -s`
+  and friends.
 
 Requirements
 ------------
