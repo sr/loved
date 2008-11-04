@@ -73,6 +73,7 @@ module Loved
   private
     def write_to_database(song)
       song.tags.uniq!
+      song.tags.map! { |tag| normalize_tag(tag) }
 
       files = song.tags.dup.push('all').map { |tag| file_name_for_tag(tag) }
       files.each do |file_name|
@@ -81,6 +82,8 @@ module Loved
           file.puts song.file
         end
       end
+
+      song
     end
 
     def find_songs_in_file(file_name)
@@ -90,11 +93,11 @@ module Loved
     end
 
     def file_name_for_tag(tag)
-      File.join(@@directory, normalize_tag_for_file_name(tag))
+      File.join(@@directory, normalize_tag(tag))
     end
 
     # thanks technoweenie!
-    def normalize_tag_for_file_name(tag)
+    def normalize_tag(tag)
       result = Iconv.iconv('ascii//translit//IGNORE', 'utf-8', tag.to_s).to_s
       result.gsub!(/[^\x00-\x7F]+/, '') # Remove anything non-ASCII entirely (e.g. diacritics).
       result.gsub!(/[^\w_ \-]+/i, '') # Remove unwanted chars.
