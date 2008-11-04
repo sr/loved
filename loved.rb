@@ -72,9 +72,9 @@ module Loved
 
   private
     def write_to_database(song)
-      song.tags.push('all').uniq!
+      song.tags.uniq!
 
-      files = song.tags.map { |tag| file_name_for_tag(tag) }
+      files = song.tags.dup.push('all').map { |tag| file_name_for_tag(tag) }
       files.each do |file_name|
         File.open(file_name, 'a+') do |file|
           next unless file.grep(/^#{Regexp.quote(song.file)} /).empty?
