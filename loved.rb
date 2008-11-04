@@ -78,15 +78,13 @@ module Loved
       files.each do |file_name|
         File.open(file_name, 'a+') do |file|
           next unless file.grep(/^#{Regexp.quote(song.file)} /).empty?
-          file.puts "#{song.file} # #{song.tags.join(' ')}"
+          file.puts song.file
         end
       end
     end
 
     def find_songs_in_file(file_name)
-      File.foreach(file_name).inject([]) do |songs, line|
-        songs << line.split('#').first.strip
-      end
+      File.readlines(file_name).map(&:chomp)
     rescue Errno::ENOENT
       []
     end
