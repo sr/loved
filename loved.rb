@@ -78,7 +78,7 @@ module Loved
       files = song.tags.dup.push('all').map { |tag| file_name_for_tag(tag) }
       files.each do |file_name|
         File.open(file_name, 'a+') do |file|
-          next unless file.grep(/^#{Regexp.quote(song.file)} /).empty?
+          next if file.readlines.map(&:chomp).include?(song.file)
           file.puts song.file
         end
       end
