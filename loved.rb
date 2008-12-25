@@ -36,7 +36,9 @@ module Loved
 
   def append_found_songs_to_mpd_playlist!(tags=[])
     by_tags(tags).tap do |songs|
-      songs.each { |song| mpd.add(song) }
+      songs.each do |song|
+        add_to_playlist_with_protection_from_missing_song(song) || next
+      end
     end
   end
 
@@ -105,6 +107,16 @@ module Loved
       result.gsub!(/^\-|\-$/i, '') # Remove leading/trailing separator.
       result.downcase!
       result
+    end
+
+    def add_to_playlist_with_protection_from_missing_song(song)
+      mpd.add(song)
+      true
+    rescue => error
+      if error.message =~ /add: directory or file not found/
+        puts "Skipped #{song} (file not found)"
+        false
+      end
     end
 end
 
