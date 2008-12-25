@@ -46,7 +46,7 @@ module Loved
   def append_found_songs_to_mpd_playlist!(tags=[])
     by_tags(tags).tap do |songs|
       songs.each do |song|
-        mpd.add(song) || "Skipped #{song} (file not found)"
+        mpd.add(song) || $stderr.puts("Skipped #{song} (file not found)")
       end
     end
   end
