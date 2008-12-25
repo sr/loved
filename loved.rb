@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
-require 'rubygems'
-require 'librmpd'
-require 'yaml'
-require 'iconv'
+require "rubygems"
+require "librmpd"
+require "iconv"
+require "yaml"
 
 class MPD
   alias_method :orig_add, :add
@@ -65,7 +65,7 @@ module Loved
   end
 
   def all
-    by_tags(['all'])
+    by_tags(["all"])
   end
 
   def by_tags(tags=[])
@@ -86,9 +86,9 @@ module Loved
       song.tags.uniq!
       song.tags.map! { |tag| normalize_tag(tag) }
 
-      files = song.tags.dup.push('all').map { |tag| file_name_for_tag(tag) }
+      files = song.tags.dup.push("all").map { |tag| file_name_for_tag(tag) }
       files.each do |file_name|
-        File.open(file_name, 'a+') do |file|
+        File.open(file_name, "a+") do |file|
           next if file.readlines.map(&:chomp).include?(song.file)
           file.puts song.file
         end
@@ -109,24 +109,24 @@ module Loved
 
     # thanks technoweenie!
     def normalize_tag(tag)
-      result = Iconv.iconv('ascii//translit//IGNORE', 'utf-8', tag.to_s).to_s
-      result.gsub!(/[^\x00-\x7F]+/, '') # Remove anything non-ASCII entirely (e.g. diacritics).
-      result.gsub!(/[^\w_ \-]+/i, '') # Remove unwanted chars.
-      result.gsub!(/[ \-]+/i, '-') # No more than one of the separator in a row.
-      result.gsub!(/^\-|\-$/i, '') # Remove leading/trailing separator.
+      result = Iconv.iconv("ascii//translit//IGNORE", "utf-8", tag.to_s).to_s
+      result.gsub!(/[^\x00-\x7F]+/, "") # Remove anything non-ASCII entirely (e.g. diacritics).
+      result.gsub!(/[^\w_ \-]+/i, "") # Remove unwanted chars.
+      result.gsub!(/[ \-]+/i, "-") # No more than one of the separator in a row.
+      result.gsub!(/^\-|\-$/i, "") # Remove leading/trailing separator.
       result.downcase!
       result
     end
 end
 
 if $0 == __FILE__
-  Loved.playlists_directory = File.join(ENV['HOME'], '.loved')
+  Loved.playlists_directory = File.join(ENV["HOME"], ".loved")
 
-  if ARGV.delete('play')
+  if ARGV.delete("play")
     songs = Loved.append_found_songs_to_mpd_playlist!(ARGV)
     puts "Appended #{songs.length} song#{'s' if songs.length > 1} to your MPD playlist. Enjoy!"
     exit
-  elsif ARGV.delete('list')
+  elsif ARGV.delete("list")
     Loved.by_tags(ARGV).each { |song| puts song } && exit
   end
 
