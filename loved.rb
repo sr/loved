@@ -98,7 +98,7 @@ module Loved
     end
 
     def find_songs_in_file(file_name)
-      File.readlines(file_name).map(&:chomp)
+      File.readlines(file_name).map(&:chomp).sort
     rescue Errno::ENOENT
       []
     end
