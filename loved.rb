@@ -127,6 +127,8 @@ if $0 == __FILE__
     songs = Loved.append_found_songs_to_mpd_playlist!(ARGV)
     puts "Appended #{songs.length} song#{'s' if songs.length > 1} to your MPD playlist. Enjoy!"
     exit
+  elsif ARGV.delete('list')
+    Loved.by_tags(ARGV).each { |song| puts song } && exit
   end
 
   begin
