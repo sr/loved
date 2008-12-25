@@ -63,4 +63,4 @@ Licence
      0. You just DO WHAT THE FUCK YOU WANT TO.
 
 [MPD]: http://www.musicpd.org/
-[TATFT]: http://rubyhoedown2008.confreaks.com/05-bryan-liles-lightning-talk-tatft-test-all-the-f-in-time.html
+[TATFT]: http://whendoitest.com/
