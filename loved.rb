@@ -5,6 +5,15 @@ require 'yaml'
 require 'iconv'
 
 class MPD
+  alias_method :orig_add, :add
+
+  def add(file)
+    orig_add(file)
+  rescue => error
+    return false if error.message =~ /add: directory or file not found/
+    raise error
+  end
+
   class Song
     def to_s
       "#{artist} - #{title}" + \
@@ -37,7 +46,7 @@ module Loved
   def append_found_songs_to_mpd_playlist!(tags=[])
     by_tags(tags).tap do |songs|
       songs.each do |song|
-        add_to_playlist_with_protection_from_missing_song(song)
+        puts "Skipped #{song} (file not found)" unless mpd.add(song)
       end
     end
   end
@@ -107,16 +116,6 @@ module Loved
       result.gsub!(/^\-|\-$/i, '') # Remove leading/trailing separator.
       result.downcase!
       result
-    end
-
-    def add_to_playlist_with_protection_from_missing_song(song)
-      mpd.add(song)
-      true
-    rescue => error
-      if error.message =~ /add: directory or file not found/
-        puts "Skipped #{song} (file not found)"
-        false
-      end
     end
 end
 
